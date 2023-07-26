@@ -1,0 +1,168 @@
+编写实体类和存储库接口：
+// LostItem.java
+@Entity
+public class LostItem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String itemName;
+    private String description;
+    // 其他属性、getter和setter
+}
+
+// LostItemRepository.java
+public interface LostItemRepository extends JpaRepository<LostItem, Long> {
+}
+
+
+
+
+
+
+
+
+
+编写控制器和服务：
+// AuthenticationController.java
+@RestController
+@RequestMapping("/auth")
+public class AuthenticationController {
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
+        userService.registerUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Registration successful.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
+        boolean authenticated = userService.authenticateUser(userDto);
+        if (authenticated) {
+            return ResponseEntity.ok("Login successful.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+        }
+    }
+}
+
+// LostItemController.java
+@RestController
+@RequestMapping("/items")
+public class LostItemController {
+
+    @Autowired
+    private LostItemService lostItemService;
+
+    @GetMapping
+    public ResponseEntity<List<LostItem>> getItems() {
+        List<LostItem> items = lostItemService.getAllItems();
+        return ResponseEntity.ok(items);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createItem(@RequestBody LostItemDto itemDto) {
+        lostItemService.createItem(itemDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Item created successfully.");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LostItem> getItem(@PathVariable Long id) {
+        LostItem item = lostItemService.getItemById(id);
+        if (item != null) {
+            return ResponseEntity.ok(item);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateItem(@PathVariable Long id, @RequestBody LostItemDto itemDto) {
+        boolean updated = lostItemService.updateItem(id, itemDto);
+        if (updated) {
+            return ResponseEntity.ok("Item updated successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+        boolean deleted = lostItemService.deleteItem(id);
+        if (deleted) {
+            return ResponseEntity.ok("Item deleted successfully.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+编写服务层和DTO类
+// UserService.java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public void registerUser(UserDto userDto) {
+        // 实现用户注册逻辑，保存用户信息到数据库
+        // ...
+    }
+
+    public boolean authenticateUser(UserDto userDto) {
+        // 实现用户登录逻辑，验证用户名和密码是否匹配
+        // ...
+    }
+}
+
+// LostItemService.java
+@Service
+public class LostItemService {
+
+    @Autowired
+    private LostItemRepository lostItemRepository;
+
+    public List<LostItem> getAllItems() {
+        return lostItemRepository.findAll();
+    }
+
+    public void createItem(LostItemDto itemDto) {
+        // 实现创建丢失物品逻辑，保存到数据库
+        // ...
+    }
+
+    public LostItem getItemById(Long id) {
+        return lostItemRepository.findById(id).orElse(null);
+    }
+
+    public boolean updateItem(Long id, LostItemDto itemDto) {
+        // 实现更新丢失物品逻辑
+        // ...
+    }
+
+    public boolean deleteItem(Long id) {
+        // 实现删除丢失物品逻辑
+        // ...
+    }
+}
+
+// UserDto.java 和 LostItemDto.java 用于传输数据
+// ...
