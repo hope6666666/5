@@ -1,0 +1,45 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : local
+ Source Server Type    : MySQL
+ Source Server Version : 80032
+ Source Host           : localhost:3306
+ Source Schema         : demo
+
+ Target Server Type    : MySQL
+ Target Server Version : 80032
+ File Encoding         : 65001
+
+ Date: 26/07/2023 20:38:50
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for found
+-- ----------------------------
+DROP TABLE IF EXISTS `found`;
+CREATE TABLE `found`  (
+  `student_no` int NULL DEFAULT NULL COMMENT '学号',
+  `institute` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '学院',
+  `grade` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '年级',
+  `class` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '班级',
+  `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '姓名',
+  `lost_id` int NULL DEFAULT NULL COMMENT '失物id',
+  `lost_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '失物名称',
+  `lost_position` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '捡到的地点',
+  `lost_description` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '失物描述',
+  `claim_position` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '领取位置',
+  `lost_date` datetime NULL DEFAULT NULL COMMENT '捡到的日期',
+  `is_returned` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '是否已经认领'
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of found
+-- ----------------------------
+INSERT INTO `found` VALUES (2021211000, '软件', '2021', '1', '张三', 1, '钥匙', '二教', '111', '保安处', '2022-08-01 00:00:00', '1');
+INSERT INTO `found` VALUES (2021211001, '计算机', '2021', '2', '李四', 2, '手机', '三教', '222', '保安处', '2022-08-02 00:00:00', '0');
+
+SET FOREIGN_KEY_CHECKS = 1;
